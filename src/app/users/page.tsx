@@ -10,13 +10,13 @@ const Users = async () => {
   const users: User[] = await userData;
 
   const userListRender = (
-    <section className="user-list--container">
+    <section className="users-list--container">
       {users.map(({ id, name, username }) => (
-        <div className="user-list__user-record" key={id}>
-          <div className="user-list__user-record--name">
+        <div className="user-record--container" key={id}>
+          <div className="user-record__name">
             <Link href={`users/${id}/`}>{name}</Link>
           </div>
-          <div className="user-list__user-record--username">{username}</div>
+          <div className="user-record__username">{username}</div>
         </div>
       ))}
     </section>

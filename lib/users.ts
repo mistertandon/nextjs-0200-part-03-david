@@ -16,4 +16,14 @@ const fetchUserRecord = async (userId: string) => {
   return result.json();
 };
 
-export { getAllUsers, fetchUserRecord };
+const fetchUserPosts = async (userId: string) => {
+  const result = await fetch(
+    `https://jsonplaceholder.typicode.com/users/${userId}/posts`
+  );
+
+  if (!result.ok) throw new Error("Failed to fetch User posts");
+
+  return result.json();
+};
+
+export { getAllUsers, fetchUserRecord, fetchUserPosts };
