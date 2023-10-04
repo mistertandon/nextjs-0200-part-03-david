@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { fetchUserRecord, fetchUserPosts } from "./../../../../lib/users";
-import { UserPosts } from "./components";
+import { UserPosts, User } from "./components";
 
 type UserParams = {
   params: {
@@ -8,40 +9,23 @@ type UserParams = {
   };
 };
 const UserPage = async ({ params: { userId } }: UserParams) => {
-  const userData: Promise<User> = fetchUserRecord(userId);
-  const userPostsData: Promise<Post[]> = fetchUserPosts(userId);
-  const user = await userData;
-  const userPosts = await userPostsData;
+  const userPromise: Promise<User> = fetchUserRecord(userId);
+  const userPostsPromise: Promise<Post[]> = fetchUserPosts(userId);
 
-  const { name, username, email, phone } = user;
-
-  const userRecordRender = (
-    <div className="user-record--container">
-      <div className="user-record__name">{name}</div>
-      <div className="user-record__username">{username}</div>
-      <div className="user-record__email">{email}</div>
-      <div className="user-record__phone">{phone}</div>
-    </div>
-  );
-
-  const userPostsRender = (
-    <section className="user-posts--container">
-      {userPosts.map(({ id, title, body }) => (
-        <div className="user-post--container" key={id}>
-          <div className="user-post__title">{title}</div>
-          <div className="user-post__body">{body}</div>
-        </div>
-      ))}
-    </section>
-  );
   return (
     <section className="user--container">
       <div className="user-navigation__user">
-        Back to <Link href="/users">User</Link>
+        Back to <Link href="/users">Users</Link>
       </div>
-      {userRecordRender}
-      {userPostsRender}
-      <UserPosts />
+      <Suspense fallback={<h3>User Loading...</h3>}>
+        <User userPromise={userPromise} />
+      </Suspense>
+      <Suspense fallback={<h3>User posts Loading...</h3>}>
+        <UserPosts
+          userPromise={userPromise}
+          userPostsPromise={userPostsPromise}
+        />
+      </Suspense>
     </section>
   );
 };

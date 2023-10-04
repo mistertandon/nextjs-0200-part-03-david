@@ -1,2 +1,3 @@
 import { UserPosts } from "./UserPosts";
-export { UserPosts };
+import { User } from "./User";
+export { UserPosts, User };
