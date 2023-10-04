@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { fetchUserRecord, fetchUserPosts } from "./../../../../lib/users";
-// import { fetchUserRecord } from "@/lib/users";
+import { UserPosts } from "./components";
 
 type UserParams = {
   params: {
@@ -41,6 +41,7 @@ const UserPage = async ({ params: { userId } }: UserParams) => {
       </div>
       {userRecordRender}
       {userPostsRender}
+      <UserPosts />
     </section>
   );
 };
